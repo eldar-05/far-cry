@@ -19,7 +19,7 @@ public class Calculator extends JFrame implements ActionListener {
         add(resultField, BorderLayout.NORTH);
 
         JPanel numberPanel = new JPanel();
-        numberPanel.setLayout(new GridLayout(4, 3, 5, 5)); // Добавим сетку для удобства
+        numberPanel.setLayout(new GridLayout(4, 3, 5, 5));
         JPanel symbolPanel = new JPanel();
         symbolPanel.setLayout(new BoxLayout(symbolPanel, BoxLayout.Y_AXIS));
 
@@ -47,20 +47,17 @@ public class Calculator extends JFrame implements ActionListener {
         String command = e.getActionCommand();
 
         if (command.charAt(0) >= '0' && command.charAt(0) <= '9') {
-            // Добавляем цифру к текущему вводу
             resultField.setText(resultField.getText() + command);
         } else if (command.charAt(0) == 'C') {
-            // Очистка
             resultField.setText("");
             numbers[0] = 0;
             numbers[1] = 0;
-            operator = '\0';  // Сброс оператора
+            operator = '\0';
             result = 0;
         } else if (command.charAt(0) == '=') {
             try {
                 numbers[1] = Double.parseDouble(resultField.getText());
             } catch (NumberFormatException ex) {
-                // Если поле пустое или некорректное число
                 resultField.setText("Error");
                 return;
             }
@@ -87,13 +84,11 @@ public class Calculator extends JFrame implements ActionListener {
                     break;
             }
             resultField.setText("" + result);
-            numbers[0] = result;  // Чтобы можно было продолжить вычисления
+            numbers[0] = result;
         } else {
-            // Оператор (+, -, *, /)
             try {
                 numbers[0] = Double.parseDouble(resultField.getText());
             } catch (NumberFormatException ex) {
-                // Если поле пустое или некорректное число
                 resultField.setText("Error");
                 return;
             }
