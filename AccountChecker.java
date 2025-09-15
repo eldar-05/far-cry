@@ -2,20 +2,50 @@ import java.net.*;
 import java.util.Scanner;
 
 public class AccountChecker {
-
-    // Цвета ANSI
     private static final String GREEN = "\u001B[32m";
     private static final String RED = "\u001B[31m";
+    private static final String YELLOW = "\u001B[33m";
     private static final String RESET = "\u001B[0m";
 
     public static void run() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Введите username для проверки:");
         String username = sc.nextLine().trim();
-
-        checkAccount("Instagram", "https://www.instagram.com/" + username + "/");
-        checkAccount("Facebook", "https://www.facebook.com/" + username);
-        checkAccount("GitHub", "https://github.com/" + username);
+        System.out.println("Провести глубокий поиск? (y/n):");
+        System.out.println(YELLOW + " >> Глубокий поиск может занять больше времени <<" + RESET);
+        String deepSearch = sc.nextLine().trim().toLowerCase();
+        boolean isDeep = deepSearch.equals("y") || deepSearch.equals("yes");
+        if(isDeep) {
+            System.out.println(YELLOW + " Поиск аккаунтов на юзернейм: " + username + RESET);
+            checkAccount("Instagram", "https://www.instagram.com/" + username + "/");
+            checkAccount("Facebook", "https://www.facebook.com/" + username);
+            checkAccount("GitHub", "https://github.com/" + username);
+            checkAccount("Twitter", "https://twitter.com/" + username);
+            checkAccount("Reddit", "https://www.reddit.com/user/" + username);
+            checkAccount("TikTok", "https://www.tiktok.com/@" + username);
+            checkAccount("LinkedIn", "https://www.linkedin.com/in/" + username);
+            checkAccount("Pinterest", "https://www.pinterest.com/" + username + "/");
+            checkAccount("YouTube", "https://www.youtube.com/" + username);
+            checkAccount("Medium", "https://medium.com/@" + username);
+            checkAccount("Steam", "https://steamcommunity.com/id/" + username);
+            checkAccount("WordPress", "https://" + username + ".wordpress.com/");
+            checkAccount("Flickr", "https://www.flickr.com/people/" + username + "/");
+            checkAccount("Quora", "https://www.quora.com/profile/" + username);
+            checkAccount("Vimeo", "https://vimeo.com/" + username);
+            checkAccount("Goodreads", "https://www.goodreads.com/" + username);
+            checkAccount("DeviantArt", "https://www.deviantart.com/" + username);
+            checkAccount("SoundCloud", "https://soundcloud.com/" + username);
+            checkAccount("Imgur", "https://imgur.com/user/" + username);
+            checkAccount("Blogger", "https://" + username + ".blogspot.com/");
+            checkAccount("Tumblr", "https://" + username + ".tumblr.com/");
+            checkAccount("Xing", "https://www.xing.com/profile/" + username);
+            checkAccount("Ok.ru", "https://ok.ru/profile/" + username);
+        } else {
+            checkAccount("Instagram", "https://www.instagram.com/" + username + "/");
+            checkAccount("Facebook", "https://www.facebook.com/" + username);
+            checkAccount("GitHub", "https://github.com/" + username);
+        }
+        System.out.println(YELLOW + " Советуется проверить вручную Инстаграм и Фейсбук" + RESET);
 
         sc.close();
     }
@@ -30,12 +60,12 @@ public class AccountChecker {
             int code = conn.getResponseCode();
 
             if (code == 200) {
-                System.out.println(GREEN + platform + ": ✅ аккаунт найден (" + urlStr + ")" + RESET);
+                System.out.println(GREEN + platform + " Success :" +  RESET + " аккаунт найден! (" + urlStr + ")");
             } else {
-                System.out.println(RED + platform + ": ❌ аккаунт не найден" + RESET);
+                System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден");
             }
         } catch (Exception e) {
-            System.out.println(RED + platform + ": ❌ ошибка при проверке (" + e.getMessage() + ")" + RESET);
+            System.out.println(RED + platform + " Fail: " + RESET + " ошибка при проверке (" + e.getMessage() + ")");
         }
     }
 }
