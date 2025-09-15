@@ -8,6 +8,7 @@ public class MainMenu {
             System.out.println("1. Hello World");
             System.out.println("2. Калькулятор (заглушка)");
             System.out.println("3. Генератор паролей");
+            System.out.println("4. Найти аккаунты через юзернеймы (Сталкеринг)");
             System.out.println("0. Выход");
             System.out.print("Выберите пункт: ");
 
@@ -23,6 +24,8 @@ public class MainMenu {
                 case 3:
                     PasswordGenerator.run();
                     break;
+                case 4:
+                    AccountChecker.run();
                 case 0:
                     System.out.println("Выход...");
                     scanner.close();
