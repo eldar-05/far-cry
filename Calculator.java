@@ -96,7 +96,7 @@ public class Calculator extends JFrame implements ActionListener {
             resultField.setText("");
         }
     }
-    public static void main() {
+    public static void run() {
         new Calculator();
     }
 }
