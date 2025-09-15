@@ -11,10 +11,9 @@ public class MainMenu {
             System.out.println("4. Найти аккаунты через юзернеймы (Сталкеринг)");
             System.out.println("0. Выход");
             System.out.print("Выберите пункт: ");
-
-            int choice = (int)(scanner.nextInt());
-
-            switch (choice) {
+            try {
+                int choice = (int)(scanner.nextInt());
+                switch (choice) {
                 case 1:
                     HelloWorld.run();
                     break;
@@ -32,6 +31,11 @@ public class MainMenu {
                     return;
                 default:
                     System.out.println("Неверный выбор!");
+            } 
+            } catch (Exception e) {
+                System.out.println("Ошибка ввода. Пожалуйста, введите число.");
+                scanner.next();
+                continue;
             }
         }
     }
