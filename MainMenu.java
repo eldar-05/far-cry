@@ -12,7 +12,7 @@ public class MainMenu {
             System.out.println("0. Выход");
             System.out.print("Выберите пункт: ");
 
-            int choice = scanner.nextInt();
+            int choice = (int)(scanner.nextInt());
 
             switch (choice) {
                 case 1:
