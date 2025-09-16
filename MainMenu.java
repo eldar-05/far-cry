@@ -13,10 +13,11 @@ public class MainMenu {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\n=== Главное меню ===");
-            System.out.println("1. " + CYAN + "Hello World" + RESET);
+            System.out.println("1. " + CYAN + "Note" + RESET);
             System.out.println("2. " + CYAN + "Калькулятор (заглушка)" + RESET);
             System.out.println("3. " + CYAN + "Генератор паролей" + RESET);
             System.out.println("4. " + CYAN + "Найти аккаунты через юзернеймы (Сталкеринг)" + RESET);
+            System.out.println("5. " + CYAN + "Крестики - Нолики" + RESET);
             System.out.println("0. " + RED + "Выход" + RESET);
             System.out.print("Выберите пункт: ");
             try {
@@ -33,6 +34,11 @@ public class MainMenu {
                     break;
                 case 4:
                     AccountChecker.run();
+                    break;
+                case 5:
+                    TickTackToe.run();
+                    break;
+                
                 case 0:
                     System.out.println("Выход...");
                     scanner.close();
