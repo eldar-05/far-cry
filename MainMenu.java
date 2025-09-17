@@ -10,6 +10,7 @@ public class MainMenu {
 
     public static void main(String[] args) {
         
+        
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\n=== Главное меню ===");
@@ -20,37 +21,28 @@ public class MainMenu {
             System.out.println("5. " + CYAN + "Крестики - Нолики" + RESET);
             System.out.println("0. " + RED + "Выход" + RESET);
             System.out.print("Выберите пункт: ");
+            
             try {
-                int choice = (int)(scanner.nextInt());
+                String input = scanner.nextLine().trim();   // читаем строку
+                int choice = Integer.parseInt(input);       // переводим в число
+
                 switch (choice) {
-                case 1:
-                    HelloWorld.run();
-                    break;
-                case 2:
-                    Calculator.run();
-                    break;
-                case 3:
-                    PasswordGenerator.run();
-                    break;
-                case 4:
-                    AccountChecker.run();
-                    break;
-                case 5:
-                    TickTackToe.run();
-                    break;
-                
-                case 0:
-                    System.out.println("Выход...");
-                    scanner.close();
-                    return;
-                default:
-                    System.out.println(RED + "Неверный выбор!" + RESET);
-            } 
-            } catch (Exception e) {
-                System.out.println( RED + "Ошибка ввода. Пожалуйста, введите число." + RESET);
-                scanner.next();
-                continue;
+                    case 1 -> HelloWorld.run();
+                    case 2 -> Calculator.run();
+                    case 3 -> PasswordGenerator.run();
+                    case 4 -> AccountChecker.run();
+                    case 5 -> TickTackToe.run();
+                    case 0 -> {
+                        System.out.println("Выход...");
+                        scanner.close();
+                        return;
+                    }
+                    default -> System.out.println(RED + "Неверный выбор!" + RESET);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(RED + "Ошибка ввода. Пожалуйста, введите число." + RESET);
             }
         }
+
     }
 }

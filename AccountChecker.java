@@ -60,9 +60,29 @@ public class AccountChecker {
             int code = conn.getResponseCode();
 
             if (code == 200) {
-                System.out.println(GREEN + platform + " Success :" +  RESET + " аккаунт найден! (" + urlStr + ")");
+                if(platform.equals("Instagram")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    
+
+                    if(content.contains("\"username\"")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                } else if(platform.equals("Facebook")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                } else {
+                    System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                }
             } else {
-                System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден");
+                System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (код " + code + ")");
             }
         } catch (Exception e) {
             System.out.println(RED + platform + " Fail: " + RESET + " ошибка при проверке (" + e.getMessage() + ")");
