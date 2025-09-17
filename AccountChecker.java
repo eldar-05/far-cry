@@ -45,7 +45,6 @@ public class AccountChecker {
             checkAccount("Facebook", "https://www.facebook.com/" + username);
             checkAccount("GitHub", "https://github.com/" + username);
         }
-        System.out.println(YELLOW + " Советуется проверить вручную Инстаграм и Фейсбук" + RESET);
 
         sc.close();
     }
