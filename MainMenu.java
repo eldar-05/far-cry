@@ -13,6 +13,9 @@ public class MainMenu {
         
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            for(int i = 0; i < 15; i++) {
+                System.out.println("                                                                                                ");
+            }
             System.out.println(GREEN);
             System.out.println("  ___            ___             ");
             System.out.println(" | __|_ _ _ _   / __|_ _ _  _    ");
@@ -28,7 +31,6 @@ public class MainMenu {
             System.out.println("5. " + CYAN + "Крестики - Нолики" + RESET);
             System.out.println("0. " + RED + "Выход" + RESET);
             System.out.print("Выберите пункт: ");
-
             try {
                 String input = scanner.nextLine().trim();   // читаем строку
                 int choice = Integer.parseInt(input);       // переводим в число
@@ -51,5 +53,9 @@ public class MainMenu {
             }
         }
 
+    }
+
+    public static void clearScreen() {
+        System.out.print("\u001b[H");
     }
 }

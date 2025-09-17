@@ -26,7 +26,7 @@ public class TickTackToe {
                 gameWon = checkWin(board, currentPlayer);
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
             }
-            printBoard(board);
+            printBoard(board);    
             if (gameWon) {
                 System.out.println("Player " + ((currentPlayer == 'X') ? 'O' : 'X') + " wins!");
             } else {
@@ -36,9 +36,13 @@ public class TickTackToe {
             sc.nextLine();
             choice = sc.nextLine();
         }
+        
     }
 
     private static void printBoard(char[][] board) {
+        for(int i = 0; i < 20; i++) {
+            System.out.println("                                                                                                ");
+        }
         for(int i = 0; i < 3; i++) {
             System.out.println(" " + board[i][0] + " | " + board[i][1] + " | " + board[i][2]);
             if (i < 2) {
@@ -56,5 +60,4 @@ public class TickTackToe {
         if (board[0][2] == player && board[1][1] == player && board[2][0] == player) return true;
         return false;
     }
-
 }
