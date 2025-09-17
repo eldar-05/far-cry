@@ -1,5 +1,6 @@
 import java.net.*;
 import java.util.Scanner;
+import java.io.*;
 
 public class AccountChecker {
     private static final String GREEN = "\u001B[32m";
@@ -11,12 +12,30 @@ public class AccountChecker {
         Scanner sc = new Scanner(System.in);
         System.out.println("Введите username для проверки:");
         String username = sc.nextLine().trim();
-        System.out.println("Провести глубокий поиск? (y/n):");
-        System.out.println(YELLOW + " >> Глубокий поиск может занять больше времени <<" + RESET);
+        System.out.println(GREEN + "Провести глубокий поиск? (y/n):" + RESET);
+        System.out.println(YELLOW + "Глубокий поиск может занять больше времени" + RESET);
         String deepSearch = sc.nextLine().trim().toLowerCase();
         boolean isDeep = deepSearch.equals("y") || deepSearch.equals("yes");
+        System.out.println(YELLOW + "|          loading            |" + RESET + GREEN);
+        try {
+            if(isDeep) {
+                for(int i = 0; i < 30; i++) {
+                    System.out.print("#");
+                    Thread.sleep(135);
+                }
+            } else {
+                for(int i = 0; i < 30; i++) {
+                    System.out.print("#");
+                    Thread.sleep(40);
+                }
+            }
+        } catch (InterruptedException e) {
+            System.out.println(RED + "Что то пошло не так =(((" + RESET);
+        }
+        System.out.println(RESET);
+        System.out.println();
+        System.out.println(YELLOW + " Поиск аккаунтов на юзернейм: " + username + RESET);
         if(isDeep) {
-            System.out.println(YELLOW + " Поиск аккаунтов на юзернейм: " + username + RESET);
             checkAccount("Instagram", "https://www.instagram.com/" + username + "/");
             checkAccount("Facebook", "https://www.facebook.com/" + username);
             checkAccount("GitHub", "https://github.com/" + username);
@@ -44,10 +63,8 @@ public class AccountChecker {
             checkAccount("Instagram", "https://www.instagram.com/" + username + "/");
             checkAccount("Facebook", "https://www.facebook.com/" + username);
             checkAccount("GitHub", "https://github.com/" + username);
-            checkAccount("LinkedIn", "https://www.linkedin.com/in/" + username);
+            checkAccount("Telegram", "https://t.me/" + username);
         }
-
-        sc.close();
     }
 
     private static void checkAccount(String platform, String urlStr) {
@@ -75,6 +92,19 @@ public class AccountChecker {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                } else if(platform.equals("Telegram")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+
+                    boolean hasTitle = content.contains("tgme_page_title");
+                    boolean hasDescription = content.contains("og:description") && !content.contains("content=\"\"");
+
+                    if (hasTitle && hasDescription) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (нет tgme_page_title или описание пустое)");
                     }
                 } else {
                     System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");

@@ -13,7 +13,7 @@ public class MainMenu {
         
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            for(int i = 0; i < 15; i++) {
+            for(int i = 0; i < 5; i++) {
                 System.out.println("                                                                                                ");
             }
             System.out.println(GREEN);
