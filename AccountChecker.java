@@ -44,6 +44,7 @@ public class AccountChecker {
             checkAccount("Instagram", "https://www.instagram.com/" + username + "/");
             checkAccount("Facebook", "https://www.facebook.com/" + username);
             checkAccount("GitHub", "https://github.com/" + username);
+            checkAccount("LinkedIn", "https://www.linkedin.com/in/" + username);
         }
 
         sc.close();
@@ -61,9 +62,7 @@ public class AccountChecker {
             if (code == 200) {
                 if(platform.equals("Instagram")) {
                     Scanner scanner = new Scanner(conn.getInputStream());
-                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                    
-
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";                        
                     if(content.contains("\"username\"")) {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {

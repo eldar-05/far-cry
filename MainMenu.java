@@ -13,6 +13,13 @@ public class MainMenu {
         
         Scanner scanner = new Scanner(System.in);
         while (true) {
+            System.out.println(GREEN);
+            System.out.println("  ___            ___             ");
+            System.out.println(" | __|_ _ _ _   / __|_ _ _  _    ");
+            System.out.println(" | _/ _` | '_| | (__| '_| || |    ");
+            System.out.println(" |_|\\__,_|_|    \\___|_|  \\_, | ");
+            System.out.println("                         |__/    ");
+            System.out.print(RESET);
             System.out.println("\n=== Главное меню ===");
             System.out.println("1. " + CYAN + "Note" + RESET);
             System.out.println("2. " + CYAN + "Калькулятор (заглушка)" + RESET);
@@ -21,7 +28,7 @@ public class MainMenu {
             System.out.println("5. " + CYAN + "Крестики - Нолики" + RESET);
             System.out.println("0. " + RED + "Выход" + RESET);
             System.out.print("Выберите пункт: ");
-            
+
             try {
                 String input = scanner.nextLine().trim();   // читаем строку
                 int choice = Integer.parseInt(input);       // переводим в число
