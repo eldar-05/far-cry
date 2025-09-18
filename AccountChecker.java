@@ -1,6 +1,7 @@
 import java.net.*;
-import java.util.Scanner;
+import java.util.*;
 import java.io.*;
+import java.util.concurrent.*;
 
 public class AccountChecker {
     private static final String GREEN = "\u001B[32m";
@@ -16,17 +17,18 @@ public class AccountChecker {
         System.out.println(YELLOW + "Глубокий поиск может занять больше времени" + RESET);
         String deepSearch = sc.nextLine().trim().toLowerCase();
         boolean isDeep = deepSearch.equals("y") || deepSearch.equals("yes");
+
         System.out.println(YELLOW + "|          loading            |" + RESET + GREEN);
         try {
             if(isDeep) {
                 for(int i = 0; i < 30; i++) {
                     System.out.print("#");
-                    Thread.sleep(135);
+                    Thread.sleep(90);
                 }
             } else {
                 for(int i = 0; i < 30; i++) {
                     System.out.print("#");
-                    Thread.sleep(40);
+                    Thread.sleep(20);
                 }
             }
         } catch (InterruptedException e) {
@@ -35,36 +37,43 @@ public class AccountChecker {
         System.out.println(RESET);
         System.out.println();
         System.out.println(YELLOW + " Поиск аккаунтов на юзернейм: " + username + RESET);
+
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+        List<Future<?>> futures = new ArrayList<>();
+
         if(isDeep) {
-            checkAccount("Instagram", "https://www.instagram.com/" + username + "/");
-            checkAccount("Facebook", "https://www.facebook.com/" + username);
-            checkAccount("GitHub", "https://github.com/" + username);
-            checkAccount("Twitter", "https://twitter.com/" + username);
-            checkAccount("Reddit", "https://www.reddit.com/user/" + username);
-            checkAccount("TikTok", "https://www.tiktok.com/@" + username);
-            checkAccount("LinkedIn", "https://www.linkedin.com/in/" + username);
-            checkAccount("Pinterest", "https://www.pinterest.com/" + username + "/");
-            checkAccount("YouTube", "https://www.youtube.com/" + username);
-            checkAccount("Medium", "https://medium.com/@" + username);
-            checkAccount("Steam", "https://steamcommunity.com/id/" + username);
-            checkAccount("WordPress", "https://" + username + ".wordpress.com/");
-            checkAccount("Flickr", "https://www.flickr.com/people/" + username + "/");
-            checkAccount("Quora", "https://www.quora.com/profile/" + username);
-            checkAccount("Vimeo", "https://vimeo.com/" + username);
-            checkAccount("Goodreads", "https://www.goodreads.com/" + username);
-            checkAccount("DeviantArt", "https://www.deviantart.com/" + username);
-            checkAccount("SoundCloud", "https://soundcloud.com/" + username);
-            checkAccount("Imgur", "https://imgur.com/user/" + username);
-            checkAccount("Blogger", "https://" + username + ".blogspot.com/");
-            checkAccount("Tumblr", "https://" + username + ".tumblr.com/");
-            checkAccount("Xing", "https://www.xing.com/profile/" + username);
-            checkAccount("Ok.ru", "https://ok.ru/profile/" + username);
+            futures.add(executor.submit(() -> checkAccount("Instagram", "https://www.instagram.com/" + username + "/")));
+            futures.add(executor.submit(() -> checkAccount("Facebook", "https://www.facebook.com/" + username)));
+            futures.add(executor.submit(() -> checkAccount("GitHub", "https://github.com/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Twitter", "https://twitter.com/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Reddit", "https://www.reddit.com/user/" + username)));
+            futures.add(executor.submit(() -> checkAccount("LinkedIn", "https://www.linkedin.com/in/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Pinterest", "https://www.pinterest.com/" + username + "/")));
+            futures.add(executor.submit(() -> checkAccount("YouTube", "https://www.youtube.com/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Medium", "https://medium.com/@" + username)));
+            futures.add(executor.submit(() -> checkAccount("Steam", "https://steamcommunity.com/id/" + username)));
+            futures.add(executor.submit(() -> checkAccount("WordPress", "https://" + username + ".wordpress.com/")));
+            futures.add(executor.submit(() -> checkAccount("Flickr", "https://www.flickr.com/people/" + username + "/")));
+            futures.add(executor.submit(() -> checkAccount("Quora", "https://www.quora.com/profile/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Goodreads", "https://www.goodreads.com/" + username)));
+            futures.add(executor.submit(() -> checkAccount("DeviantArt", "https://www.deviantart.com/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Imgur", "https://imgur.com/user/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Blogger", "https://" + username + ".blogspot.com/")));
+            futures.add(executor.submit(() -> checkAccount("Tumblr", "https://" + username + ".tumblr.com/")));
+            futures.add(executor.submit(() -> checkAccount("Xing", "https://www.xing.com/profile/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Ok.ru", "https://ok.ru/profile/" + username)));
         } else {
-            checkAccount("Instagram", "https://www.instagram.com/" + username + "/");
-            checkAccount("Facebook", "https://www.facebook.com/" + username);
-            checkAccount("GitHub", "https://github.com/" + username);
-            checkAccount("Telegram", "https://t.me/" + username);
+            futures.add(executor.submit(() -> checkAccount("Instagram", "https://www.instagram.com/" + username + "/")));
+            futures.add(executor.submit(() -> checkAccount("Facebook", "https://www.facebook.com/" + username)));
+            futures.add(executor.submit(() -> checkAccount("GitHub", "https://github.com/" + username)));
+            futures.add(executor.submit(() -> checkAccount("Telegram", "https://t.me/" + username)));
         }
+
+        for (Future<?> f : futures) {
+            try { f.get(); } catch (Exception ignored) {}
+        }
+
+        executor.shutdown();
     }
 
     private static void checkAccount(String platform, String urlStr) {
@@ -79,7 +88,8 @@ public class AccountChecker {
             if (code == 200) {
                 if(platform.equals("Instagram")) {
                     Scanner scanner = new Scanner(conn.getInputStream());
-                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";                        
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";  
+                    scanner.close();                      
                     if(content.contains("\"username\"")) {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {
@@ -88,6 +98,7 @@ public class AccountChecker {
                 } else if(platform.equals("Facebook")) {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
                     if(content.contains("username")) {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {

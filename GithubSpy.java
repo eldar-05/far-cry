@@ -37,9 +37,9 @@ public class GithubSpy {
                     continue;
                 }
                 for (Repo r : repos) {
-                    System.out.println(GREEN + "\nНазвание: " + r.name + RESET);
-                    System.out.println(YELLOW + "Ссылка: " + r.htmlUrl + "/" + r.name + RESET);
-                    System.out.println(YELLOW + "Дата последнего пуша: " + r.pushedAt + RESET);
+                    System.out.println(GREEN + "\nНазвание: "+ RED + r.name + RESET);
+                    System.out.println( "Ссылка: "+ YELLOW + r.htmlUrl + "/" + r.name + RESET);
+                    System.out.println( "Дата последнего пуша: "+ YELLOW + r.pushedAt + RESET);
                     String readme = tryFetchReadme(user, r.name, token);
                     if (readme != null) {
                         String firstLine = firstNonEmptyLine(readme);
