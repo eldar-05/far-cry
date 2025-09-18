@@ -13,16 +13,10 @@ public class MainMenu {
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            for(int i = 0; i < 5; i++) {
+            for(int i = 0; i < 3; i++) {
                 System.out.println("                                                                                                ");
             }
-            System.out.println(GREEN);
-            System.out.println("  ___            ___             ");
-            System.out.println(" | __|_ _ _ _   / __|_ _ _  _    ");
-            System.out.println(" | _/ _` | '_| | (__| '_| || |    ");
-            System.out.println(" |_|\\__,_|_|    \\___|_|  \\_, | ");
-            System.out.println("                         |__/    ");
-            System.out.print(RESET);
+            banner();
             System.out.println("\n=== Главное меню ===");
             System.out.println("1. " + CYAN + "Note" + RESET);
             System.out.println("2. " + CYAN + "Калькулятор (заглушка)" + RESET);
@@ -59,5 +53,22 @@ public class MainMenu {
 
     public static void clearScreen() {
         System.out.print("\u001b[H");
+    }
+
+    public static void banner() {
+        System.out.println(GREEN);
+        System.out.println("                " + RED + "     ______                       " + GREEN);
+        System.out.println("              "+ RED + "    .-        -.                    " + GREEN);
+        System.out.println("  ============ "+ RED + "  /            \\  " + GREEN + " ================  ");
+        System.out.println(" ___         "+ RED + "   |              |  " + GREEN + "   ___             ");
+        System.out.println("| __|_ _ _ _  " + RED  +"  |,  .-.  .-.  ,|  " + GREEN +"  / __|_ _ _  _    ");
+        System.out.println("| _/ _` | '_| " + RED + "  | )(__/  \\__)( |  "+ GREEN +" | (__| '_| || |    " );
+        System.out.println("|_|\\__,_|_|  " + RED  +"   |/     /\\     \\|  " + GREEN + "  \\___|_|  \\_, | ");
+        System.out.println("              "+ RED +"  (_     ^^     _)       "+ GREEN +"      |__/    ");
+        System.out.println(" =============  "+ RED + " \\__|IIIIII|__/ "+ GREEN +" ================== ");
+        System.out.println("                "+ RED +"  | \\IIIIII/ |   "+ GREEN +" ");
+        System.out.println("              " + RED + "    \\          / "+GREEN+" ");
+        System.out.println("              " + RED + "     `--------`  "+GREEN+" ");
+        System.out.print(RESET);
     }
 }
