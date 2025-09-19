@@ -31,7 +31,7 @@ public class MainMenu {
                 int choice = Integer.parseInt(input);       // переводим в число
 
                 switch (choice) {
-                    case 1 -> HelloWorld.run();
+                    case 1 -> Note.run();
                     case 2 -> Calculator.run();
                     case 3 -> PasswordGenerator.run();
                     case 4 -> AccountChecker.run();
