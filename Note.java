@@ -19,10 +19,13 @@ public class Note extends JFrame implements ActionListener {
         JMenu fileMenu = new JMenu("File");
         JTextField titleOfDocumentTextField = new JTextField(currentDocument.getTitle());
         JMenuItem openItem = new JMenuItem("Open");
+        JMenuItem newItem = new JMenuItem("New");
         JMenuItem saveItem = new JMenuItem("Save");
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(openItem);
         openItem.addActionListener(this);
+        fileMenu.add(newItem);
+        newItem.addActionListener(this);
         fileMenu.add(saveItem);
         saveItem.addActionListener(this);
         fileMenu.add(exitItem);
@@ -36,7 +39,6 @@ public class Note extends JFrame implements ActionListener {
                 
         setTitle("Note");
         setSize(800, 1100);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         add(topPanel, BorderLayout.NORTH);
         add(new JScrollPane(textArea), BorderLayout.CENTER);
@@ -70,6 +72,9 @@ public class Note extends JFrame implements ActionListener {
                 openDocumentsFrame.setLocationRelativeTo(this);
                 openDocumentsFrame.setVisible(true);
                 break;
+
+            case "New":
+                if (currentDocument.isModified()){}
             case "Save":
                 String title = currentDocument.getTitle();
                 if (!title.isEmpty()) {
@@ -91,16 +96,14 @@ public class Note extends JFrame implements ActionListener {
         }
     }
     public boolean checkExistingDocument() {
+        boolean exists = false;
         for (Document doc : documents){
             if (currentDocument.getTitle().equals(doc.getTitle())) {
-                currentDocument = doc;
-                textArea.setText(currentDocument.getContent());
-                return true;
-            }else{
-                return false;
+                exists = true;
+                break;
             }
         }
-        return false;
+        return exists;
     }
     public static void run() {
         new Note();
