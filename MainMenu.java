@@ -19,9 +19,9 @@ public class MainMenu {
             banner();
             System.out.println("\n=== Главное меню ===");
             System.out.println("1. " + CYAN + "Note" + RESET);
-            System.out.println("2. " + CYAN + "Калькулятор (заглушка)" + RESET);
+            System.out.println("2. " + CYAN + "Калькулятор" + RESET);
             System.out.println("3. " + CYAN + "Генератор паролей" + RESET);
-            System.out.println("4. " + CYAN + "Найти аккаунты через юзернеймы (Сталкеринг)" + RESET);
+            System.out.println("4. " + CYAN + "Найти аккаунты через юзернеймы" + RESET);
             System.out.println("5. " + CYAN + "GitHub spy" + RESET);
             System.out.println("6. " + CYAN + "Крестики - Нолики" + RESET);
             System.out.println("0. " + RED + "Выход" + RESET);
