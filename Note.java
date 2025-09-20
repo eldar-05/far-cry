@@ -5,15 +5,14 @@ import java.util.ArrayList;
 
 public class Note extends JFrame implements ActionListener {
     private JTextArea textArea;
-    private JPanel topPanel;
     private ArrayList<Document> documents = new ArrayList<>();
     private Document currentDocument;
     public Note() {
         textArea = new JTextArea();
-        topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        
-        currentDocument = new Document("Untitled");
+
+        if (documents.isEmpty()) {
+            currentDocument = new Document("Untitled");
+        }
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -36,12 +35,10 @@ public class Note extends JFrame implements ActionListener {
         setJMenuBar(menuBar);
         
         currentDocument.setContent(textArea.getText());
-                
+        add(new JScrollPane(textArea), BorderLayout.CENTER);
+                  
         setTitle("Note");
         setSize(800, 1100);
-
-        add(topPanel, BorderLayout.NORTH);
-        add(new JScrollPane(textArea), BorderLayout.CENTER);
         setVisible(true);
     }
 
@@ -74,18 +71,22 @@ public class Note extends JFrame implements ActionListener {
                 break;
 
             case "New":
-                if (currentDocument.isModified()){}
-            case "Save":
-                String title = currentDocument.getTitle();
-                if (!title.isEmpty()) {
-                    currentDocument.setTitle(title);
-                    currentDocument.setContent(textArea.getText());
-                    currentDocument.save();
-                    documents.add(currentDocument);
-                    JOptionPane.showMessageDialog(this, "Document saved as " + title, "Info", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(this, "File name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                if (currentDocument.isModified()){
+                    int option = JOptionPane.showConfirmDialog(this, "Current document is modified. Do you want to save changes?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (option == JOptionPane.YES_OPTION) {
+                        saveDocumentInList(currentDocument);
+                    } else if (option == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                }else {
+                    saveDocumentInList(currentDocument);
+                    currentDocument = new Document("Untitled"+(documents.size()));
+                    textArea.setText("");
                 }
+
+                break;
+            case "Save":
+                saveDocumentInList(currentDocument);
                 break;
 
             case "Exit":
@@ -97,14 +98,37 @@ public class Note extends JFrame implements ActionListener {
     }
     public boolean checkExistingDocument() {
         boolean exists = false;
-        for (Document doc : documents){
-            if (currentDocument.getTitle().equals(doc.getTitle())) {
-                exists = true;
-                break;
+        if (!documents.isEmpty()) {
+            for (Document doc : documents){
+                if (currentDocument.getTitle().equals(doc.getTitle())) {
+                    exists = true;
+                    break;
+                }
             }
+        }else{
+            // No documents exist
         }
         return exists;
     }
+
+    public void saveDocumentInList(Document doc) {
+        if (!checkExistingDocument()) {
+            doc.setContent(textArea.getText());
+            doc.save();
+            documents.add(doc);
+            JOptionPane.showMessageDialog(this, "Document saved as " + doc.getTitle(), "Info", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            for (Document d : documents) {
+                if (d.getTitle().equals(doc.getTitle())) {
+                    d.setContent(textArea.getText());
+                    d.save();
+                    break;
+                }
+            }
+        }
+    }
+
+
     public static void run() {
         new Note();
     }
