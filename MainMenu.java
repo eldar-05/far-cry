@@ -24,6 +24,7 @@ public class MainMenu {
             System.out.println("4. " + CYAN + "Найти аккаунты через юзернеймы" + RESET);
             System.out.println("5. " + CYAN + "GitHub spy" + RESET);
             System.out.println("6. " + CYAN + "Крестики - Нолики" + RESET);
+            System.out.println("7. " + CYAN + "Брут Форс" + RESET);
             System.out.println("0. " + RED + "Выход" + RESET);
             System.out.print("Выберите пункт: ");
             try {
@@ -37,6 +38,7 @@ public class MainMenu {
                     case 4 -> AccountChecker.run();
                     case 5 -> GithubSpy.run();
                     case 6 -> TickTackToe.run();
+                    case 7 -> BruteForce.run();
                     case 0 -> {
                         System.out.println("Выход...");
                         scanner.close();
