@@ -48,7 +48,7 @@ public class AccountChecker {
             futures.add(executor.submit(() -> checkAccount("Twitter", "https://twitter.com/" + username)));
             futures.add(executor.submit(() -> checkAccount("Reddit", "https://www.reddit.com/user/" + username)));
             futures.add(executor.submit(() -> checkAccount("LinkedIn", "https://www.linkedin.com/in/" + username)));
-            futures.add(executor.submit(() -> checkAccount("Pinterest", "https://www.pinterest.com/" + username + "/")));
+            futures.add(executor.submit(() -> checkAccount("Pinterest", "https://www.pinterest.com/" + username)));
             futures.add(executor.submit(() -> checkAccount("YouTube", "https://www.youtube.com/" + username)));
             futures.add(executor.submit(() -> checkAccount("Medium", "https://medium.com/@" + username)));
             futures.add(executor.submit(() -> checkAccount("Steam", "https://steamcommunity.com/id/" + username)));
@@ -86,6 +86,7 @@ public class AccountChecker {
             int code = conn.getResponseCode();
 
             if (code == 200) {
+            //Instagram
                 if(platform.equals("Instagram")) {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";  
@@ -95,7 +96,9 @@ public class AccountChecker {
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
                     }
-                } else if(platform.equals("Facebook")) {
+                } 
+            //Facebook
+                else if(platform.equals("Facebook")) {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
                     scanner.close();
@@ -104,7 +107,9 @@ public class AccountChecker {
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
                     }
-                } else if(platform.equals("Telegram")) {
+                }
+            //Telegram
+                else if(platform.equals("Telegram")) {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
                     scanner.close();
@@ -116,6 +121,175 @@ public class AccountChecker {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (нет tgme_page_title или описание пустое)");
+                    }
+                }
+            //Steam
+                else if(platform.equals("Steam")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+
+                    boolean hasTitle = content.contains("username");
+                    boolean hasDescription = content.contains("og:description") && !content.contains("content=\"\"");
+
+                    if (hasTitle && hasDescription) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (нет tgme_page_title или описание пустое)");
+                    }
+                }
+            //Medium
+                else if(platform.equals("Medium")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //DeviantArt
+                else if(platform.equals("DeviantArt")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Ok.ru
+                else if(platform.equals("Ok.ru")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Blogger
+                else if(platform.equals("Blogger")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Goodreads
+                else if(platform.equals("Goodreads")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Tumblr
+                else if(platform.equals("Tumblr")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Xing
+                else if(platform.equals("Xing")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Quora
+                else if(platform.equals("Quora")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Flickr
+                else if(platform.equals("Flickr")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Imgur
+                else if(platform.equals("Imgur")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Twitter
+                else if(platform.equals("Twitter")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Pinterest
+                else if(platform.equals("Pinterest")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("\"message\": \"Not Found\"")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //Reddit
+                else if(platform.equals("Reddit")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
+                    }
+                }
+            //WordPress    
+                else if(platform.equals("WordPress")) {
+                    Scanner scanner = new Scanner(conn.getInputStream());
+                    String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                    scanner.close();
+                    if(content.contains("username")) {
+                        System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
+                    } else {
+                        System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
                     }
                 } else {
                     System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
