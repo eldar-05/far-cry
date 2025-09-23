@@ -74,6 +74,13 @@ public class AccountChecker {
         }
 
         executor.shutdown();
+        System.out.println(GREEN + "\nПоиск завершен." + RESET);
+        try {
+            Thread.sleep(4000);
+             
+        } catch (InterruptedException e) {
+            System.out.println(RED + "Что то пошло не так =(((" + RESET);
+        }
     }
 
     private static void checkAccount(String platform, String urlStr) {
