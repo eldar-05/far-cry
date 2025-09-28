@@ -282,7 +282,7 @@ public class AccountChecker {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
                     scanner.close();
-                    if(content.contains("username")) {
+                    if(!content.contains("username not found")) {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
