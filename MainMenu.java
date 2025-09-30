@@ -9,8 +9,6 @@ public class MainMenu {
     private static final String RESET = "\u001B[0m";
 
     public static void main(String[] args) {
-        
-
         Scanner scanner = new Scanner(System.in);
         while (true) {
             for(int i = 0; i < 3; i++) {
@@ -18,43 +16,98 @@ public class MainMenu {
             }
             banner();
             System.out.println("\n=== Главное меню ===");
-            System.out.println("1. " + CYAN + "Note" + RESET);
-            System.out.println("2. " + CYAN + "Калькулятор" + RESET);
-            System.out.println("3. " + CYAN + "Генератор паролей" + RESET);
-            System.out.println("4. " + CYAN + "Найти аккаунты через юзернеймы" + RESET);
-            System.out.println("5. " + CYAN + "GitHub spy" + RESET);
-            System.out.println("6. " + CYAN + "Крестики - Нолики" + RESET);
-            System.out.println("7. " + CYAN + "Брут Форс" + RESET);
+            System.out.println("1. " + CYAN + "Инстурменты" + RESET);
+            System.out.println("2. " + CYAN + "Cyber security" + RESET);
+            System.out.println("3. " + CYAN + "Игры" + RESET);
             System.out.println("0. " + RED + "Выход" + RESET);
             System.out.print("Выберите пункт: ");
-            try {
-                String input = scanner.nextLine().trim();   // читаем строку
-                int choice = Integer.parseInt(input);       // переводим в число
-
-                switch (choice) {
-                    case 1 -> Note.run();
-                    case 2 -> Calculator.run();
-                    case 3 -> PasswordGenerator.run();
-                    case 4 -> AccountChecker.run();
-                    case 5 -> GithubSpy.run();
-                    case 6 -> TickTackToe.run();
-                    case 7 -> BruteForce.run();
-                    case 0 -> {
-                        System.out.println("Выход...");
-                        scanner.close();
-                        return;
-                    }
-                    default -> System.out.println(RED + "Неверный выбор!" + RESET);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println(RED + "Ошибка ввода. Пожалуйста, введите число." + RESET);
-            }
+            int n = scanner.nextInt();
+            showMenu(n);
         }
-
     }
 
     public static void clearScreen() {
         System.out.print("\u001b[H");
+    }
+
+    public static void showMenu(int n) {
+        Scanner scanner = new Scanner(System.in);
+        for(int i = 0; i < 20; i++) {
+                System.out.println("                                                                                                ");
+        }
+        banner();
+        if(n == 1) {
+            System.out.println("\n=== Главное меню ===");
+            System.out.println("1." + YELLOW + " Инстурменты" + RESET);
+            System.out.println("|__  1. " + CYAN + "Calculator" + RESET);
+            System.out.println("|__  2. " + CYAN + "Note" + RESET);
+            System.out.println("2. Cyber security" + RESET);
+            System.out.println("3. Игры" + RESET);
+            System.out.println("0. " + RED + "Выход" + RESET);
+            System.out.print("Выберите пункт: ");
+            try {
+                int choice = scanner.nextInt();
+                if (choice == 1) {
+                    Calculator.run();
+                } else if (choice == 2) {
+                    Note.run();
+                } else {
+                    System.out.println(RED + "Неверный выбор!" + RESET);
+                }
+            } catch (Exception e) {
+                System.out.println(RED + "Ошибка ввода!" + RESET);
+            }
+        } else if(n == 2) {
+            System.out.println("\n=== Главное меню ===");
+            System.out.println("1. Инстурменты" + RESET);
+            System.out.println("2." + YELLOW + " Cyber security" + RESET);
+            System.out.println("|__  1. " + CYAN + "Генератор паролей" + RESET);
+            System.out.println("|__  2. " + CYAN + "Проверка Акк по username" + RESET);
+            System.out.println("|__  3. " + CYAN + "GitHub spy" + RESET);
+            System.out.println("|__  4. " + CYAN + "Brute Force" + RESET);
+            System.out.println("3. Игры" + RESET);
+            System.out.println("0. " + RED + "Выход" + RESET);
+            System.out.print("Выберите пункт: ");
+            try {
+                int choice = scanner.nextInt();
+                if (choice == 1) {
+                    PasswordGenerator.run();
+                } else if (choice == 2) {
+                    AccountChecker.run();
+                } else if (choice == 3) {
+                    GithubSpy.run();
+                } else if (choice == 4) {
+                    BruteForce.run();
+                } else {
+                    System.out.println(RED + "Неверный выбор!" + RESET);
+                }
+            } catch (Exception e) {
+                System.out.println(RED + "Ошибка ввода!" + RESET);
+            }
+        } else if(n == 3) {
+            System.out.println("\n=== Главное меню ===");
+            System.out.println("1. Инстурменты" + RESET);
+            System.out.println("2. Cyber security" + RESET);
+            System.out.println("3. " + YELLOW + "Игры" + RESET);
+            System.out.println("|__  1. " + CYAN + "Крестики - Нолики" + RESET);
+            System.out.println("0. " + RED + "Выход" + RESET);
+            System.out.print("Выберите пункт: ");
+            try {
+                int choice = scanner.nextInt();
+                if (choice == 1) {
+                    TickTackToe.run();
+                } else {
+                    System.out.println(RED + "Неверный выбор!" + RESET);
+                }
+            } catch (Exception e) {
+                System.out.println(RED + "Ошибка ввода!" + RESET);
+            }
+        } else if(n == 0) {
+            System.out.println("Выход...");
+            System.exit(0);
+        } else {
+            System.out.println(RED + "Неверный выбор!" + RESET);
+        }
     }
 
     public static void banner() {

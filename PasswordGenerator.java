@@ -16,6 +16,9 @@ public class PasswordGenerator {
             System.out.println("Enter the desired length of the password:");
             int length = sc.nextInt();
             String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+            for(int i = 0; i < 20; i++) {
+                System.out.println("                                                                                                ");
+            }
             System.out.print("Generated password: " + GREEN);
             for(int i = 0; i < length; i++) {
                 int randomIndex = (int)(Math.random() * chars.length());
