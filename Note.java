@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -7,19 +9,23 @@ public class Note extends JFrame implements ActionListener {
     private JTextArea textArea;
     private ArrayList<Document> documents = new ArrayList<>();
     private Document currentDocument;
+    private JTextField titleOfDocumentTextField;
     public Note() {
         textArea = new JTextArea();
 
         if (documents.isEmpty()) {
             currentDocument = new Document("Untitled");
+        } else {
+            currentDocument = documents.get(0);
         }
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        JTextField titleOfDocumentTextField = new JTextField(currentDocument.getTitle());
+        titleOfDocumentTextField = new JTextField(currentDocument.getTitle(), 20);
         JMenuItem openItem = new JMenuItem("Open");
         JMenuItem newItem = new JMenuItem("New");
         JMenuItem saveItem = new JMenuItem("Save");
+        JMenuItem saveAsItem = new JMenuItem("Save As");
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(openItem);
         openItem.addActionListener(this);
@@ -27,18 +33,51 @@ public class Note extends JFrame implements ActionListener {
         newItem.addActionListener(this);
         fileMenu.add(saveItem);
         saveItem.addActionListener(this);
+        fileMenu.add(saveAsItem);
+        saveAsItem.addActionListener(this);
         fileMenu.add(exitItem);
         exitItem.addActionListener(this);
         menuBar.add(fileMenu);
-        menuBar.add(new JLabel("Title: "));
-        menuBar.add(titleOfDocumentTextField, BorderLayout.EAST);
+        menuBar.add(Box.createHorizontalGlue());
+        menuBar.add(new JLabel(" Title: "));
+        menuBar.add(titleOfDocumentTextField);
         setJMenuBar(menuBar);
-        
-        currentDocument.setContent(textArea.getText());
+
+        textArea.setText(currentDocument.getContent());
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+            private void update() {
+                currentDocument.setContent(textArea.getText());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) { update(); }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) { update(); }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) { update(); }
+        });
+
+        titleOfDocumentTextField.addActionListener(evt -> {
+            String newTitle = titleOfDocumentTextField.getText().trim();
+;            if (checkExistingDocument(newTitle)) {
+                JOptionPane.showMessageDialog(this, "A document with this title already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+                titleOfDocumentTextField.setText(currentDocument.getTitle());
+                return;
+            } else {
+                if (!newTitle.isEmpty()) {
+                    currentDocument.setTitle(newTitle);
+                }
+            }
+        });
+
         add(new JScrollPane(textArea), BorderLayout.CENTER);
-                  
+
         setTitle("Note");
         setSize(800, 1100);
+
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -58,6 +97,7 @@ public class Note extends JFrame implements ActionListener {
                             if (index >= 0) {
                                 currentDocument = documents.get(index);
                                 textArea.setText(currentDocument.getContent());
+                                titleOfDocumentTextField.setText(currentDocument.getTitle());
                                 openDocumentsFrame.dispose();
                             }
                         }
@@ -78,17 +118,35 @@ public class Note extends JFrame implements ActionListener {
                     } else if (option == JOptionPane.CANCEL_OPTION) {
                         return;
                     }
-                }else {
-                    saveDocumentInList(currentDocument);
-                    currentDocument = new Document("Untitled"+(documents.size()));
-                    textArea.setText("");
                 }
 
+                currentDocument = new Document("Untitled" + (documents.size()));
+                titleOfDocumentTextField.setText(currentDocument.getTitle());
+                textArea.setText("");
                 break;
             case "Save":
+                currentDocument.setContent(textArea.getText());
                 saveDocumentInList(currentDocument);
                 break;
+            case "Save As":
+                String newTitle = JOptionPane.showInputDialog(this, "Enter new title:", currentDocument.getTitle());
+                if (newTitle != null) {
+                    newTitle = newTitle.trim();
+                    if (newTitle.isEmpty()) {
+                        // empty title -> ignore
+                        break;
+                    }
 
+                    if (checkExistingDocument(newTitle)) {
+                        JOptionPane.showMessageDialog(this, "A document with this title already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        currentDocument.setTitle(newTitle);
+                        titleOfDocumentTextField.setText(newTitle);
+                        saveDocumentInList(currentDocument);
+                    }
+                }
+                
+                break;
             case "Exit":
                 System.exit(0);
                 break;
@@ -96,39 +154,27 @@ public class Note extends JFrame implements ActionListener {
                 break;
         }
     }
-    public boolean checkExistingDocument() {
-        boolean exists = false;
-        if (!documents.isEmpty()) {
-            for (Document doc : documents){
-                if (currentDocument.getTitle().equals(doc.getTitle())) {
-                    exists = true;
-                    break;
-                }
+    /**
+     * Check whether a document with the provided title already exists in the list
+     * excluding the current document.
+     */
+    public boolean checkExistingDocument(String title) {
+        if (title == null || title.trim().isEmpty()) return false;
+        if (documents.isEmpty()) return false;
+        for (Document doc : documents) {
+            if (doc != currentDocument && title.equals(doc.getTitle())) {
+                return true;
             }
-        }else{
-            // No documents exist
         }
-        return exists;
+        return false;
     }
 
     public void saveDocumentInList(Document doc) {
-        if (!checkExistingDocument()) {
-            doc.setContent(textArea.getText());
-            doc.save();
-            documents.add(doc);
-            JOptionPane.showMessageDialog(this, "Document saved as " + doc.getTitle(), "Info", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            for (Document d : documents) {
-                if (d.getTitle().equals(doc.getTitle())) {
-                    d.setContent(textArea.getText());
-                    d.save();
-                    break;
-                }
-            }
-        }
+        doc.setContent(textArea.getText());
+        doc.save();
+        documents.add(doc);
+        JOptionPane.showMessageDialog(this, "Document saved as " + doc.getTitle(), "Info", JOptionPane.INFORMATION_MESSAGE);
     }
-
-
     public static void run() {
         new Note();
     }
