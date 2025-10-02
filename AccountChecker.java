@@ -43,12 +43,13 @@ public class AccountChecker {
 
         if(isDeep) {
             futures.add(executor.submit(() -> checkAccount("Instagram", "https://www.instagram.com/" + username + "/")));
+            futures.add(executor.submit(() -> checkAccount("Telegram", "https://t.me/" + username)));
             futures.add(executor.submit(() -> checkAccount("Facebook", "https://www.facebook.com/" + username)));
             futures.add(executor.submit(() -> checkAccount("GitHub", "https://github.com/" + username)));
-            futures.add(executor.submit(() -> checkAccount("Twitter", "https://twitter.com/" + username)));
+            //futures.add(executor.submit(() -> checkAccount("Twitter", "https://twitter.com/" + username)));
             futures.add(executor.submit(() -> checkAccount("Reddit", "https://www.reddit.com/user/" + username)));
             futures.add(executor.submit(() -> checkAccount("LinkedIn", "https://www.linkedin.com/in/" + username)));
-            futures.add(executor.submit(() -> checkAccount("Pinterest", "https://www.pinterest.com/" + username)));
+            //futures.add(executor.submit(() -> checkAccount("Pinterest", "https://www.pinterest.com/" + username)));
             futures.add(executor.submit(() -> checkAccount("YouTube", "https://www.youtube.com/" + username)));
             futures.add(executor.submit(() -> checkAccount("Medium", "https://medium.com/@" + username)));
             futures.add(executor.submit(() -> checkAccount("Steam", "https://steamcommunity.com/id/" + username)));
@@ -150,7 +151,7 @@ public class AccountChecker {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
                     scanner.close();
-                    if(content.contains("username")) {
+                    if(!content.contains("PAGE NOT FOUND")) {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
@@ -260,7 +261,7 @@ public class AccountChecker {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
                     scanner.close();
-                    if(content.contains("username")) {
+                    if(!content.contains("No Such Username") || !content.contains("This account doesn’t exist")) {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
@@ -271,7 +272,7 @@ public class AccountChecker {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
                     scanner.close();
-                    if(content.contains("\"message\": \"Not Found\"")) {
+                    if(!content.contains("The page you are looking for does not exist.")) {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");
@@ -282,7 +283,7 @@ public class AccountChecker {
                     Scanner scanner = new Scanner(conn.getInputStream());
                     String content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
                     scanner.close();
-                    if(!content.contains("username not found")) {
+                    if(!content.contains("Sorry, nobody on Reddit goes by that name.") || !content.contains("This account may have been banned or the username is incorrect.")) {
                         System.out.println(GREEN + platform + " Success :" + RESET + " аккаунт найден! (" + urlStr + ")");
                     } else {
                         System.out.println(RED + platform + " Fail :" + RESET + " аккаунт не найден (страница существует, но юзернейм не найден)");

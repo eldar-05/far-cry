@@ -38,12 +38,10 @@ public class MainMenu {
         banner();
         if(n == 1) {
             System.out.println("\n=== Главное меню ===");
-            System.out.println("1." + YELLOW + " Инстурменты" + RESET);
-            System.out.println("|__  1. " + CYAN + "Calculator" + RESET);
-            System.out.println("|__  2. " + CYAN + "Note" + RESET);
-            System.out.println("2. Cyber security" + RESET);
-            System.out.println("3. Игры" + RESET);
-            System.out.println("0. " + RED + "Выход" + RESET);
+            System.out.println(">>" + YELLOW + " Инстурменты" + RESET);
+            System.out.println("|==  1. " + CYAN + "Calculator" + RESET);
+            System.out.println("|==  2. " + CYAN + "Note" + RESET);
+            System.out.println("0. " + RED + "Назад" + RESET);
             System.out.print("Выберите пункт: ");
             try {
                 int choice = scanner.nextInt();
@@ -59,14 +57,12 @@ public class MainMenu {
             }
         } else if(n == 2) {
             System.out.println("\n=== Главное меню ===");
-            System.out.println("1. Инстурменты" + RESET);
-            System.out.println("2." + YELLOW + " Cyber security" + RESET);
-            System.out.println("|__  1. " + CYAN + "Генератор паролей" + RESET);
-            System.out.println("|__  2. " + CYAN + "Проверка Акк по username" + RESET);
-            System.out.println("|__  3. " + CYAN + "GitHub spy" + RESET);
-            System.out.println("|__  4. " + CYAN + "Brute Force" + RESET);
-            System.out.println("3. Игры" + RESET);
-            System.out.println("0. " + RED + "Выход" + RESET);
+            System.out.println(">>" + YELLOW + " Cyber security" + RESET);
+            System.out.println("|==  1. " + CYAN + "Генератор паролей" + RESET);
+            System.out.println("|==  2. " + CYAN + "Проверка Акк по username" + RESET);
+            System.out.println("|==  3. " + CYAN + "GitHub spy" + RESET);
+            System.out.println("|==  4. " + CYAN + "Brute Force" + RESET);
+            System.out.println("0. " + RED + "Назад" + RESET);
             System.out.print("Выберите пункт: ");
             try {
                 int choice = scanner.nextInt();
@@ -86,11 +82,9 @@ public class MainMenu {
             }
         } else if(n == 3) {
             System.out.println("\n=== Главное меню ===");
-            System.out.println("1. Инстурменты" + RESET);
-            System.out.println("2. Cyber security" + RESET);
-            System.out.println("3. " + YELLOW + "Игры" + RESET);
-            System.out.println("|__  1. " + CYAN + "Крестики - Нолики" + RESET);
-            System.out.println("0. " + RED + "Выход" + RESET);
+            System.out.println(">> " + YELLOW + "Игры" + RESET);
+            System.out.println("|== 1. " + CYAN + "Крестики - Нолики" + RESET);
+            System.out.println("0. " + RED + "Назад" + RESET);
             System.out.print("Выберите пункт: ");
             try {
                 int choice = scanner.nextInt();
