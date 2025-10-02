@@ -61,7 +61,7 @@ public class Note extends JFrame implements ActionListener {
 
         titleOfDocumentTextField.addActionListener(evt -> {
             String newTitle = titleOfDocumentTextField.getText().trim();
-;            if (checkExistingDocument(newTitle)) {
+            if (checkExistingDocument(newTitle)) {
                 JOptionPane.showMessageDialog(this, "A document with this title already exists.", "Error", JOptionPane.ERROR_MESSAGE);
                 titleOfDocumentTextField.setText(currentDocument.getTitle());
                 return;
@@ -133,11 +133,7 @@ public class Note extends JFrame implements ActionListener {
                 if (newTitle != null) {
                     newTitle = newTitle.trim();
                     if (newTitle.isEmpty()) {
-                        // empty title -> ignore
-                        break;
-                    }
-
-                    if (checkExistingDocument(newTitle)) {
+                    } else if (checkExistingDocument(newTitle)) {
                         JOptionPane.showMessageDialog(this, "A document with this title already exists.", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
                         currentDocument.setTitle(newTitle);
@@ -145,7 +141,6 @@ public class Note extends JFrame implements ActionListener {
                         saveDocumentInList(currentDocument);
                     }
                 }
-                
                 break;
             case "Exit":
                 System.exit(0);
@@ -154,10 +149,7 @@ public class Note extends JFrame implements ActionListener {
                 break;
         }
     }
-    /**
-     * Check whether a document with the provided title already exists in the list
-     * excluding the current document.
-     */
+    
     public boolean checkExistingDocument(String title) {
         if (title == null || title.trim().isEmpty()) return false;
         if (documents.isEmpty()) return false;
@@ -173,7 +165,7 @@ public class Note extends JFrame implements ActionListener {
         doc.setContent(textArea.getText());
         doc.save();
         documents.add(doc);
-        JOptionPane.showMessageDialog(this, "Document saved as " + doc.getTitle(), "Info", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Document saved", "Info", JOptionPane.INFORMATION_MESSAGE);
     }
     public static void run() {
         new Note();
