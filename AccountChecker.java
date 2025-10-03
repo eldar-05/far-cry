@@ -23,12 +23,12 @@ public class AccountChecker {
             if(isDeep) {
                 for(int i = 0; i < 30; i++) {
                     System.out.print("#");
-                    Thread.sleep(90);
+                    Thread.sleep(40);
                 }
             } else {
                 for(int i = 0; i < 30; i++) {
                     System.out.print("#");
-                    Thread.sleep(20);
+                    Thread.sleep(5);
                 }
             }
         } catch (InterruptedException e) {
