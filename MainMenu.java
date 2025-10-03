@@ -10,6 +10,8 @@ public class MainMenu {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Animation.loading();
+        
         while (true) {
             for(int i = 0; i < 3; i++) {
                 System.out.println("                                                                                                ");
